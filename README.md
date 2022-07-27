@@ -25,4 +25,4 @@ Report
 Getting Started
 ---
 #### https://github.com/damiafuentes/DJITelloPy
-To test this project on Fedora, simply clone this repository, install the dependencies with ./dependencies.sh, and run `python main.py`
+To test this project on Fedora, clone this repository, run `chmod u+x dependencies.sh`, install the dependencies with `./dependencies.sh`, and run `python main.py`
