@@ -39,3 +39,8 @@ The run method starts the tello object's video stream, and does the following co
 Our first challenge is to run the detection and depth algorithms inside this loop, without creating excessive lag. I believe it may be necessary to run the key press listening and display updating in two separate threads. As a first step, we could define a new key to take pictures, and run detection and depth on each image.
 If we have time, we can then find a way to make the drone move autonomously, in response to what it detects.
 
+Take a picture of the scene
+Take a picture further back
+get 2 vectors of Midas and YOLO output, what do we do with the vectors?
+"graph" is a chain which loops back, each node is orientation at a certain time, made up of midas and yolo output. Order is based on time, but lets say a current position looks like a much older position. This could indicate that you moved in a loop, and helps you build a map or deconstruct the environment.  
+For the graph algorthim step, we can just put that as conclusion/next step, not the actual implementation for our project. 

@@ -1,8 +1,11 @@
+import detection as det
 from djitellopy import Tello
+#import cv2
 import cv2
 import pygame
 import numpy as np
 import time
+import threading
 #https://github.com/damiafuentes/DJITelloPy/blob/master/examples/manual-control-pygame.py
 # Speed of the drone
 S = 60
@@ -77,8 +80,10 @@ class FrontEnd(object):
 
             self.screen.fill([0, 0, 0])
             #This is each video frame being received from Tello in real time. 
-            #We will detect this.
+            #We will detect this, concurrently while updating screen.
             frame = frame_read.frame
+            th=threading.Thread(target=det.detect_objects, args=(frame,))
+            th.start()
             # battery
             text = "Battery: {}%".format(self.tello.get_battery())
             cv2.putText(frame, text, (5, 720 - 5),
@@ -92,6 +97,7 @@ class FrontEnd(object):
             pygame.display.update()
 
             time.sleep(1 / FPS)
+            th.join()
 
         # Call it always before finishing. To deallocate resources.
         self.tello.end()

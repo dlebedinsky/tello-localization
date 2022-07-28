@@ -22,15 +22,18 @@ def load_model_cache():
         return None
 
 def detect_objects(image):
+    file1= open("detections.txt", "a")
     model = load_model_cache()
     if model is None:
-        print('Detection model not found!')
+        file1.write('Detection model not found!')
         return image, []
     detections = model([image]).pandas().xyxy[0]
-    print('detections', detections)
+    file1.writelines(detections)
     for label, confidence, left, right, bottom, top in detections[['name', 'confidence', 'xmin', 'xmax', 'ymin', 'ymax']].values:
         cv2.rectangle(image, (round(left), round(top)), (round(right), round(bottom)), (255, 0, 0), 2)
         cv2.putText(image, "{} [{:.2f}]".format(label, float(confidence)),
                             (round(left), round(top) - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.5,
                             (255, 0, 255), 1)
-    return image, detections
+    #return image, detections
+    image.save("detection.jpg")
+    file1.writelines(detections)
